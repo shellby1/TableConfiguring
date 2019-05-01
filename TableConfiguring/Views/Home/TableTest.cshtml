@@ -1,0 +1,64 @@
+﻿@using TableConfiguring.Models
+@model List<Customers>
+@{
+    ViewBag.Title = "TableTest";
+}
+<h2>TableTest</h2>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<table class="table table-dark table-hover table-sm" interactive="true">
+    <thead>
+        <tr>
+            <th sort="Name">
+                <a href="#" class="d-flex flex-row justify-content-between">
+                    <span>Name</span>
+                    <i class="fa fa-fw fa-sort"></i>
+                </a>
+            </th>
+            <th sort="ContactName">
+                <a href="#" class="d-flex flex-row justify-content-between">
+                    <span>Contact Name</span>
+                    <i class="fa fa-fw fa-sort"></i>
+                </a>
+            </th>
+            <th sort="Address">
+                <a href="#" class="d-flex flex-row justify-content-between">
+                    <span>Address</span>
+                    <i class="fa fa-fw fa-sort"></i>
+                </a>
+            </th>
+            <th>City</th>
+            <th>Postal Code</th>
+            <th>Country</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Customers customer in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(customer.Name, "TableTestDetails", new { id = customer.Id}, new { @class = "custItem"})</td>
+                <td>@customer.ContactName</td>
+                <td>@customer.Address</td>
+                <td>@customer.City</td>
+                <td>@customer.PostalCode</td>
+                <td>@customer.Country</td>
+            </tr>
+        }
+    </tbody>
+    @section scripts
+    {
+        <script type="text/javascript">
+            $(function () {
+                $.ajaxSetup({ cache: false });
+                $('.custItem').click(function (event) {
+                    event.preventDefault();
+                    $.get(this.href, function (data) {
+                        $('#dialogContent').html(data);
+                        $('#modDialog').modal('show');
+                    });
+                });
+            })
+        </script>
+    }
+</table>
