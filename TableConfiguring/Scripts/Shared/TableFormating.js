@@ -1,14 +1,17 @@
 ﻿$(document).ready(function () {
     var table = $('table');
+    var tableChach = {};
     if (table.attr('interactive') == 'true') {
         $.each(table, function (key, value) {
-            window['tableData_' + value.getAttribute('name')] = Array.from($('tbody>tr', value));
+            //window['tableData_' + value.getAttribute('name')] = Array.from($('tbody>tr', value));
+            tableChach[value.getAttribute('name')] = Array.from($('tbody>tr', value));
         });
         table.find('a[sort]').click(function (event) {
             event.preventDefault();
             var colName = event.currentTarget.getAttribute('sort');
             var tb = $('table:has(a[sort=' + colName + '])')[0];
-            var cach = window['tableData_' + tb.getAttribute('name')];
+            //var cach = window['tableData_' + tb.getAttribute('name')];
+            var cach = tableChach[tb.getAttribute('name')];
             var tbh = $('thead th', table);
             var tbd = $('tbody', table)[0];
             var colId = $(tbh).index($('th:has(a[sort=' + event.currentTarget.getAttribute('sort') + '])', table));
