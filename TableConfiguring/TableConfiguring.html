@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html style="" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TableTest - My ASP.NET Application</title>
+    <link href="Content/bootstrap.css" rel="stylesheet">
+    <link href="Content/site.css" rel="stylesheet">
+    <link href="Content/font-awesome.css" rel="stylesheet">
+    <script src="Scripts/modernizr-2.8.3.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Application name</a>
+        <button class="navbar-toggler" aria-expanded="false" aria-controls="navbarMain" aria-label="Toggle navigation" type="button" data-target="#navbarMain" data-toggle="collapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="nav navbar-nav">
+                <li><a class="nav-item nav-link active" href="/">Home</a></li>
+                <li><a class="nav-item nav-link" href="/Home/About">About</a></li>
+                <li><a class="nav-item nav-link" href="/Home/Contact">Contact</a></li>
+                <li><a class="nav-item nav-link" href="/Home/TableTest">Table formating test</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container body-content">
+<h2>TableTest</h2>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<table class="table table-dark table-hover table-sm" interactive="true" name="tableTest">
+    <thead>
+        <tr>
+            <th>
+                <a href="#" sort="Name" class="d-flex flex-row justify-content-between">
+                    <span>Name</span>
+                    <i class="fa fa-fw fa-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="#" sort="ContactName" class="d-flex flex-row justify-content-between">
+                    <span>Contact Name</span>
+                    <i class="fa fa-fw fa-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a href="#" sort="Address" class="d-flex flex-row justify-content-between">
+                    <span>Address</span>
+                    <i class="fa fa-fw fa-sort"></i>
+                </a>
+            </th>
+            <th>City</th>
+            <th>Postal Code</th>
+            <th>Country</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td><a class="custItem" href="/Home/TableTestDetails/0">Alfreds Futterkiste</a></td>
+                <td>Maria Anders</td>
+                <td>Obere Str. 57</td>
+                <td>Berlin</td>
+                <td>12209</td>
+                <td>Germany</td>
+            </tr>
+            <tr>
+                <td><a class="custItem" href="/Home/TableTestDetails/1">Ana Trujillo Emparedados</a></td>
+                <td>Ana Trujillo</td>
+                <td>Avda. de la Constitución 2222</td>
+                <td>México D.F.</td>
+                <td>5021</td>
+                <td>Mexico</td>
+            </tr>
+            <tr>
+                <td><a class="custItem" href="/Home/TableTestDetails/2">Antonio Moreno Taquería</a></td>
+                <td>Antonio Moreno</td>
+                <td>Mataderos 2312</td>
+                <td>México D.F. </td>
+                <td>5023</td>
+                <td>Mexico</td>
+            </tr>
+            <tr>
+                <td><a class="custItem" href="/Home/TableTestDetails/3">Around the Horn</a></td>
+                <td>Thomas Hardy</td>
+                <td>120 Hanover Sq.</td>
+                <td>London</td>
+                <td>11</td>
+                <td>UK</td>
+            </tr>
+            <tr>
+                <td><a class="custItem" href="/Home/TableTestDetails/4">Berglunds snabbköp</a></td>
+                <td>Christina Berglund</td>
+                <td>Berguvsvägen 8</td>
+                <td>Luleå</td>
+                <td>95822</td>
+                <td>Sweden</td>
+            </tr>
+    </tbody>
+</table>
+        <hr>
+        <footer>
+            <p>© 2019 - My ASP.NET Application</p>
+        </footer>
+    </div>
+    <script src="Scripts/jquery-3.4.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/Shared/TableFormating.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			$.ajaxSetup({ cache: false });
+			$('.custItem').click(function (event) {
+				event.preventDefault();
+				$.get(this.href, function (data) {
+					$('#dialogContent').html(data);
+					$('#modDialog').modal('show');
+				});
+			});
+		})
+	</script>
+</body></html>
