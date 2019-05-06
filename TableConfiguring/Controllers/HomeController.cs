@@ -30,7 +30,7 @@ namespace TableConfiguring.Controllers
 
         public ActionResult TableTest()
         {
-            List<Customers> customers = null;
+            List<Customer> customers = null;
             using (DataContext dbContext = new DataContext())
             {
                 customers = dbContext.Customers.ToList();
@@ -40,7 +40,7 @@ namespace TableConfiguring.Controllers
 
         public ActionResult TableTestDetails(int id)
         {
-            Customers customer;
+            Customer customer;
             using(DataContext dbContext = new DataContext())
             {
                 customer =

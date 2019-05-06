@@ -1,5 +1,5 @@
 ﻿@using TableConfiguring.Models
-@model List<Customers>
+@model List<Customer>
 @{
     ViewBag.Title = "TableTest";
 }
@@ -35,7 +35,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Customers customer in Model)
+        @foreach (Customer customer in Model)
         {
             <tr>
                 <td>@Html.ActionLink(customer.Name, "TableTestDetails", new { id = customer.Id}, new { @class = "custItem"})</td>

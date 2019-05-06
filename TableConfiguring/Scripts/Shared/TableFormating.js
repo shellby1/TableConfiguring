@@ -18,7 +18,7 @@
             var colId = $(tbh).index($('thead th:has(a[sort=' + event.currentTarget.getAttribute('sort') + '])', tb));
             var sorted = cache.sort((a, b) => {
                 var val_a = isNaN(a.children[colId].innerText) ? a.children[colId].innerText : Number(a.children[colId].innerText);
-                var val_b = isNaN(b.children[colId].innerText) ? b.children[colId].innerText : b.children[colId].innerText;
+                var val_b = isNaN(b.children[colId].innerText) ? b.children[colId].innerText : Number(b.children[colId].innerText);
                 if (val_a < val_b)
                     return -1;
                 if (val_a > val_b)

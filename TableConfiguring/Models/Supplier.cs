@@ -6,10 +6,10 @@ namespace TableConfiguring.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Customers
+    public partial class Supplier
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int SupplierId { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -27,10 +27,16 @@ namespace TableConfiguring.Models
         [StringLength(50)]
         public string City { get; set; }
 
-        public int PostalCode { get; set; }
+        [Required]
+        [StringLength(10)]
+        public string PostalCode { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(20)]
         public string Country { get; set; }
+
+        [Required]
+        [StringLength(20)]
+        public string Phone { get; set; }
     }
 }

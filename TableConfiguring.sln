@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableConfiguring", "TableConfiguring\TableConfiguring.csproj", "{A64CC56F-6B77-49BC-BC90-6371F95411D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevApp", "DevApp\DevApp.csproj", "{F985A9E6-7457-4E72-8518-B9C3A53E8FE8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A64CC56F-6B77-49BC-BC90-6371F95411D9} = {A64CC56F-6B77-49BC-BC90-6371F95411D9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

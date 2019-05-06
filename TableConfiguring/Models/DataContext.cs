@@ -12,29 +12,34 @@ namespace TableConfiguring.Models
         {
         }
 
-        public virtual DbSet<Customers> Customers { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<OrderDetails> OrderDetails { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Shipper> Shippers { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customers>()
+            modelBuilder.Entity<Customer>()
                 .Property(e => e.Name)
                 .IsFixedLength();
 
-            modelBuilder.Entity<Customers>()
+            modelBuilder.Entity<Customer>()
                 .Property(e => e.ContactName)
                 .IsFixedLength();
 
-            modelBuilder.Entity<Customers>()
+            modelBuilder.Entity<Customer>()
                 .Property(e => e.Address)
                 .IsFixedLength();
 
-            modelBuilder.Entity<Customers>()
+            modelBuilder.Entity<Customer>()
                 .Property(e => e.City)
                 .IsFixedLength();
 
-            modelBuilder.Entity<Customers>()
+            modelBuilder.Entity<Customer>()
                 .Property(e => e.Country)
                 .IsFixedLength();
 
@@ -60,6 +65,50 @@ namespace TableConfiguring.Models
 
             modelBuilder.Entity<Employee>()
                 .Property(e => e.Notes)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.Unit)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Shipper>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Shipper>()
+                .Property(e => e.Phone)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.ContactName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.Address)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.City)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.PostalCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.Country)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Supplier>()
+                .Property(e => e.Phone)
                 .IsUnicode(false);
         }
     }
