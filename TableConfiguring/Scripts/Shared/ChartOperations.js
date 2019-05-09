@@ -51,7 +51,6 @@
     }
     // Set current origin x
     set currentOriginX(X) {
-            this._ctx.restore();
             var int_x = _validation.getInt(X);
             this._ctx.translate(int_x, 0);
             this._x = int_x;
@@ -62,10 +61,17 @@
     }
     // Set current origin y
     set currentOriginY(Y) {
-            this._ctx.restore();
             var int_y = _validation.getInt(Y);
             this._ctx.translate(0, this._ctx.canvas.height - int_y);
             this._y = int_y;
+    }
+    // Get current origin angle
+    get currentOriginAngle() {
+        return this._angle * 180 / Math.PI;
+    }
+    // Set current origin angle
+    set currentOriginAngle(A) {
+        this._angle = _validation.getRadial(A);
     }
     // Get canvas width
     get width(){
@@ -97,12 +103,18 @@
         this._ctx.clearRect(0, 0, x, y);
         this._ctx.restore();
     }
+    saveCanvas() {
+        this._ctx.save();
+    }
+    restoreCanvas() {
+        this._ctx.restore();
+    }
     /**
      * Translate current coordinate system by default to center of canvas element
      * @param {integer} dx Horisontal increment in pixels
      * @param {integer} dy Vertical increment in pixels
      */
-    translateSelf(dx, dy) {
+    translateSelf(dx, dy, ) {
         this.currentOriginX += dx;
         this.currentOriginY += dy;
     }
@@ -195,7 +207,7 @@
         this._ctx.stroke();
     }
 }
-class RadialDiagramChart {
+class _baseDiagramm {
     /**
      * Create new canvas element in container with base functionality
      * @param {htmlElement} Container
@@ -205,12 +217,26 @@ class RadialDiagramChart {
      * @param {Array[string]} ColorMap Chart color map. Use all valid css colors
      * @param {string} BackgroundColor Canvas background color. Use all valide css colors
      */
-    constructor (Container, Width, Height, Data, ColorMap, BackgroundColor) {
+    constructor(Container, Width, Height, Data, ColorMap, BackgroundColor) {
         this._drawer = new Drawer(Container, Width, Height, BackgroundColor);
         this._data = Data;
         this._colorMap = ColorMap;
-        this._center_x = this._drawer.width / 2;
-        this._center_y = this._drawer.height / 2;
+        this._x = this._drawer.width / 2;
+        this._y = this._drawer.height / 2;
+        this._angle = 0;
+    }
+}
+class RadialDiagramm extends _baseDiagramm {
+    /**
+     * Create new canvas element in container with base functionality
+     * @param {htmlElement} Container
+     * @param {integer} Width Canvas width in pixels
+     * @param {Array[object]} Data Chart data as Array of data object()
+     * @param {Array[string]} ColorMap Chart color map. Use all valid css colors
+     * @param {string} BackgroundColor Canvas background color. Use all valide css colors
+     */
+    constructor(Container, Width, Data, ColorMap) {
+        super(Container, Width, Width, Data, ColorMap);
     }
     Draw() {
         var prms = Object.getOwnPropertyNames(this._data[0]);
@@ -227,44 +253,86 @@ class RadialDiagramChart {
         //this._drawer.Sector(this._center_x, this._center_y);
     }
 }
-class point {
+class _elemBase{
+    /**
+     * Create base element object
+     * @param {Drawer} Drawer Main elemnt drawer object reference
+     * @param {number} cX Element center horizontal position
+     * @param {number} cY Element center vertical position
+     * @param {number} cA Element horizontal axis angele (anticlockwise)
+     */
+    constructor(Drawer, cX, cY, cA) {
+        if (Drawer.constructor.name == 'Drawer')
+            this._drawer = Drawer;
+        this._cX = _validation.getInt(cX);
+        this._cY = _validation.getInt(cY);
+        this._cA = _validation.getRadial(cA);
+    }
+    // Get element center horizontal position
+    get centerX() {
+        return this._cX;
+    }
+    // Set element center position
+    set centerX(val) {
+        this._cX = _validation.getInt(val);
+    }
+    // Get element center vertical position
+    get centerY() {
+        return this._cY;
+    }
+    // Set element center vertical position
+    set centerY(val) {
+        this._cY = _validation.getInt(val);
+    }
+    // Get element center horizontal axis orientation
+    get centerA() {
+        return this._cA * 180 / Math.PI;
+    }
+    // Set element center horizontal axis orientation
+    set centerA(val) {
+        this._cA = _validation.getRadial(val);
+    }
+}
+class Point extends _elemBase {
     /**
      * Create object of point
-     * @param {integer} X Horizontal point coordinate
-     * @param {integer} Y Vertical point coordinate
+     * @param {Drawer} Drawer Main elemnt drawer object reference
+     * @param {integer} X Pointh horizontal coordinate
+     * @param {integer} Y Point vertical coordinate
+     * @param {degrement} A Point horizontal axis angle
+     * @param {'arc','crl','rec','rmb'} Form Point form type {} 
      */
-    constructor(X, Y) {
+    constructor(Drawer, X, Y, A, Form) {
         // Coordinates
-        this._x = _validation.getInt(X);
-        this._y = _validation.getInt(Y);
+        super(Drawer, X, Y, A);
         // Type of point
-        this._type = 'arc';
+        this._form = 'arc';
+        if (isNaN(Form))
+            this.Form(Form);
     }
-    get X() {
-        return this._x;
-    }
-    set X(X) {
-        this._x = _validation.getInt(X);
-    }
-    get Y() {
-        return this._y;
-    }
-    set Y(Y) {
-        this._y = _validation.getInt(Y);
-    }
-    get Type() {
+    // Get point form type
+    get Form() {
         return this._type;
     }
-    set Type(type) {
-        switch (type) {
+    // Set point form type
+    set Form(form) {
+        switch (form) {
             case 'arc':
+            case 'crl':
             case 'rec':
             case 'rmb':
-                this._type = type;
+                this._form = form;
                 break;
             default:
-                throw 'Argument will be "arc" or "rec"';
+                throw 'Argument will be "arc", "crl", "rec" or "rmb"';
         }
+    }
+    // Draw point
+    Draw() {
+        var drw = this._drawer;
+        drw.saveCanvas();
+
+        drw.restoreCanvas();
     }
 }
 class line {
@@ -331,9 +399,15 @@ class _validation {
         else
             throw 'Argument value=' + value + ' is not a number';
     }
-    static getRadial(value){
+    static getRadial(value) {
         if (!isNaN(value))
             return parseFloat(value) * Math.PI / 180;
+        else
+            throw 'Argument value=' + value + ' is not a number';
+    }
+    static getDegrement(value) {
+        if (!isNaN(value))
+            return parseFloat(value) * 180 / Math.PI;
         else
             throw 'Argument value=' + value + ' is not a number';
     }

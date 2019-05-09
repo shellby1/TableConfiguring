@@ -20,6 +20,7 @@ namespace TableConfiguring.Models
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Shipper> Shippers { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<SupplierProduct> SupplierProducts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -109,6 +110,9 @@ namespace TableConfiguring.Models
 
             modelBuilder.Entity<Supplier>()
                 .Property(e => e.Phone)
+                .IsUnicode(false);
+            modelBuilder.Entity<SupplierProduct>()
+                .Property(e => e.Name)
                 .IsUnicode(false);
         }
     }
