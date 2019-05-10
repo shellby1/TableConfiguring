@@ -24,4 +24,20 @@ class DataTable {
             }
         }
     }
+    // Get data array
+    get table(){
+        return this._table;
+    }
+    // Get max row summ
+    get maxSum(){
+        return this._maxSum;
+    }
+    // Get row summ array
+    get rowSum(){
+        return this._rowSum;
+    }
+    // Get data array length
+    get length(){
+        return this._table.length;
+    }
 }
