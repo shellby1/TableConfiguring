@@ -6,10 +6,10 @@ class DataTable {
     constructor(Data) {
         this._table = Data;
         this._maxSum = 0;
-        this._rowSum = new Array(Data.length);
-        this._colNames = new Array(Data.length);
+        this._rowSum = Array.from(Array(this._table.length, () => 0);
         // Get data object property names
         var prms = Object.getOwnPropertyNames(this._table[0]);
+        this._colNames = new Array(prms.length - 1);
         // For each data parameters
         for(var i = 1; i < prms.length; i++){
             // Set column names
@@ -35,6 +35,10 @@ class DataTable {
     // Get row summ array
     get rowSum(){
         return this._rowSum;
+    }
+    // Get column names
+    get colNames(){
+        return this._colNames;
     }
     // Get data array length
     get length(){
