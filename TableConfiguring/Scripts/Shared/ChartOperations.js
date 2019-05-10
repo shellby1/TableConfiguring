@@ -151,27 +151,31 @@
      * Draw sector by center, radiuse, start end angle in anticlockwise direction
      * @param {integer} x Horisontal position in pixels
      * @param {integer} y Vertical position in pixels
+     * @param {degrement} r1 First curve radiuse
+     * @param {degrement} r2 Second curve radiuse
      * @param {degree} sA Start angle
      * @param {degree} eA End angle
      * @param {string} color Arc color. Use all valid css colors
      * @param {bolean} fill Arc fill color. Use all valid css colors
      */
-    Sector (x, y, r, sA, eA, color, fill = false) {
+    Sector (x, y, r1, r2, sA, eA, color, fill = false) {
         var int_x = _validation.getInt(x);
         var int_y = - _validation.getInt(y);
-        var int_r = _validation.getInt(r);
+        var int_r1 = _validation.getInt(r1);
+        var int_r2 = _validation.getInt(r2);
         var rad_sA = - _validation.getRadial(sA);
-        var int_x_sA = int_x + int_r * Math.cos(rad_sA);
-        var int_y_sA = int_y + int_r * Math.sin(rad_sA);
+        var int_x_sA = int_x + int_r1 * Math.cos(rad_sA);
+        var int_y_sA = int_y + int_r1 * Math.sin(rad_sA);
         var rad_eA = - _validation.getRadial(eA);
-        var int_x_eA = int_x + int_r * Math.cos(rad_eA);
-        var int_y_eA = int_y + int_r * Math.sin(rad_eA);
+        var int_x_eA = int_x + int_r2 * Math.cos(rad_eA);
+        var int_y_eA = int_y + int_r2 * Math.sin(rad_eA);
         var str_color = _validation.isNullOrEmpty(color);
         // Draw sector
         this._ctx.beginPath();
         this._ctx.moveTo(int_x, int_y);
+        this._ctx.arc(int_x, int_y, int_r1, rad_sA, rad_eA, true);
         this._ctx.lineTo(int_x_sA, int_y_sA);
-        this._ctx.arc(int_x, int_y, int_r, rad_sA, rad_eA, true);
+        this._ctx.arc(int_x, int_y, int_r2, rad_sA, rad_eA);
         this._ctx.closePath();
         if(fill){
             this._ctx.fillStyle = str_color;
