@@ -52,5 +52,10 @@ namespace TableConfiguring.Controllers
                 return PartialView(customer);
             return HttpNotFound();
         }
+
+        public ActionResult CanvasTest()
+        {
+            return View("CanvasTest");
+        }
     }
 }

@@ -1,0 +1,7 @@
+﻿<script type="module">
+    import * as drawers from '/Scripts/Charts/Charts.js';
+    import * as base from '/Scripts/Charts/BaseElements.js';
+    window.chart = new drawers.RadialDiagramm(document.getElementsByClassName('container')[0], 1000, new drawers.DataTable(JSON.parse('[{"inst":181242,"HOLD":200,"EXEC":200,"SUCC":800},{"inst":213542,"HOLD":250,"EXEC":250,"SUCC":850},{"inst":10480,"HOLD":200,"EXEC":250,"SUCC":850}]')), ['yellow', 'white', 'green']);
+    window.chart.Draw();
+    window.point = new base.Point(chart._drawer, 500, 500, 20, 0, 'red', 'rec', true);
+</script>
