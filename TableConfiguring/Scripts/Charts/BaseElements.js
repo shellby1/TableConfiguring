@@ -175,3 +175,27 @@ class Arc {
         this._y = _validation.getInt(Y);
     }
 }
+class Text extends _elemBase {
+    constructor(Drawer, x1, y1, cA, text, size, font = 'serif', Color = 'black', fill = true) {
+        super(Drawer, x1, y1, cA, text.length, size, Color);
+        this._font = font;
+        this._fill = fill;
+        this._text = text;
+    }
+    Draw() {
+        var drw = this._drawer;
+        var ctx = drw._ctx;
+        drw.translateSelf(this._cX, this._cY, this._cA);
+        ctx.font = this._h + 'px ' + this._font;
+        ctx.textBaseline = 'hanging';
+        if(this._fill) {
+            ctx.fillStyle = this._color;
+            ctx.fillText(this._text, 0, 0);
+        }
+        else {
+            ctx.strokeStyle = this._color;
+            ctx.strokeText(this._text, 0, 0);
+        }
+        drw.translateSelf(-this._cX, -this._cY, -this._cA);
+    }
+}
