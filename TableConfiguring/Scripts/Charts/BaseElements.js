@@ -1,5 +1,5 @@
 ﻿import { Drawer, _validation } from "/Scripts/Charts/Drawer.js";
-export { Point  , Sector, Line, Arc };
+export { Point  , Sector, Line, Arc, Text };
 class _elemBase {
     /**
      * Create base element object
@@ -13,6 +13,8 @@ class _elemBase {
     constructor(Drawer, cX, cY, cA, w, h, Color) {
         if (Drawer.constructor.name == 'Drawer')
             this._drawer = Drawer;
+        else
+            throw 'Drawer is not specified';
         this._cX = _validation.getInt(cX);
         this._cY = _validation.getInt(cY);
         this._cA = _validation.getRadial(cA);
@@ -111,6 +113,19 @@ class Point extends _elemBase {
     }
 }
 class Sector extends _elemBase {
+    /**
+     * Create sector element by specified parameters
+     * @param {Drawer} Drawer Main elemnt drawer object reference
+     * @param {integer} cX Element concentric center horizontal position
+     * @param {integer} cY Element concentric center vertical position
+     * @param {degrement} cA Element horisontal angle
+     * @param {degrement} wA Element width angle
+     * @param {integer} r1 Element inner radiuse (can be 0)
+     * @param {integer} r2 Element outer radiuse
+     * @param {string} Color Element color
+     * @param {integer} th Element thickness if fill is false
+     * @param {boolean} fill
+     */
     constructor(Drawer, cX, cY, cA, wA, r1, r2, Color, th = 1, fill = true) {
         super(Drawer, cX, cY, cA, 0, 0, Color);
         this._wA = _validation.getRadial(wA);
@@ -176,8 +191,20 @@ class Arc {
     }
 }
 class Text extends _elemBase {
-    constructor(Drawer, x1, y1, cA, text, size, font = 'serif', Color = 'black', fill = true) {
-        super(Drawer, x1, y1, cA, text.length, size, Color);
+    /**
+     * Create object of Text
+     * @param {Drawer} Drawer Main elemnt drawer object reference
+     * @param {integer} x1 Element left bottom corner horizontal position
+     * @param {integer} y1 Element left bottom corner vertical position
+     * @param {degrement} cA Element hjrizontal axes angle
+     * @param {string} text Element text
+     * @param {integer} size Text size in pixels
+     * @param {string} font Text font
+     * @param {string} Color Text color
+     * @param {boolean} fill Fill text if true
+     */
+    constructor(Drawer, x1, y1, cA, text, size, width = 2, font = 'serif', Color = 'black', fill = true) {
+        super(Drawer, x1, y1, cA, width, size, Color);
         this._font = font;
         this._fill = fill;
         this._text = text;
@@ -190,11 +217,12 @@ class Text extends _elemBase {
         ctx.textBaseline = 'hanging';
         if(this._fill) {
             ctx.fillStyle = this._color;
-            ctx.fillText(this._text, 0, 0);
+            ctx.fillText(this._text, 0, -this._h);
         }
         else {
+            ctx.lineWidth = this._w;
             ctx.strokeStyle = this._color;
-            ctx.strokeText(this._text, 0, 0);
+            ctx.strokeText(this._text, 0, -this._h);
         }
         drw.translateSelf(-this._cX, -this._cY, -this._cA);
     }
