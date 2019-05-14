@@ -174,6 +174,7 @@ class CircularDiagram extends _baseDiagramm {
                 if (dlt != 0) {
                     // Sector per column in row 
                     sector.sectors.push(new elements.Sector(this._drawer, 0, 0, sf, wf, (dlt_c - dlt) * outer_r / sum, dlt_c * outer_r / sum, this._colorMap[i]));
+                    dlt_c -= dlt;
                 }
             }
             // Add sector to sector items
@@ -185,7 +186,6 @@ class CircularDiagram extends _baseDiagramm {
         for (var s = 0; s < this._sectors.length; s++) {
             // Draw sectors per column
             for (var t = 0; t < this._sectors[s].sectors.length; t++) {
-                console.log(this._sectors[s].sectors[t]);
                 this._sectors[s].sectors[t].Draw();
             }
             // Sectors list per column
