@@ -17,7 +17,7 @@ class _elemBase {
             throw 'Drawer is not specified';
         this._cX = _validation.getInt(cX);
         this._cY = _validation.getInt(cY);
-        this._cA = _validation.getRadial(cA);
+        this._cA = _validation.getDecimal(cA);
         this._w = _validation.getInt(w);
         this._h = _validation.getInt(h);
         this._color = _validation.isNullOrEmpty(Color);
@@ -126,17 +126,23 @@ class Sector extends _elemBase {
      * @param {integer} th Element thickness if fill is false
      * @param {boolean} fill
      */
-    constructor(Drawer, cX, cY, cA, wA, r1, r2, Color, th = 1, fill = true) {
+    constructor(Drawer, cX, cY, cA, wA, r1, r2, Color, th = 1, fill = true, Outline = true, OutlineColor = 'black') {
         super(Drawer, cX, cY, cA, 0, 0, Color);
-        this._wA = _validation.getRadial(wA);
+        this._wA = _validation.getDecimal(wA);
         this._r1 = _validation.getInt(r1);
         this._r2 = _validation.getInt(r2);
         this._th = _validation.getInt(th);
         this._fill = fill;
+        this._outline = Outline;
+        this._outlineColor = OutlineColor;
     }
     Draw() {
-        this._drawer.Sector()
-        this._drawer.Sector(this._cX, this._cY, this._r1, this._r2, 0, this._wA, this._color, this._fill);
+        var drw = this._drawer;
+        drw.translateSelf(this._cX, this._cY, this._cA)
+        if(this._outline)
+            drw.Sector(this._cX, this._cY, this._r1, this._r2, 0, this._wA, this._outlineColor);
+        drw.Sector(this._cX, this._cY, this._r1, this._r2, 0, this._wA, this._color, this._fill);
+        drw.translateSelf(-this._cX, -this._cY, -this._cA)
     }
 }
 class Line extends _elemBase {
