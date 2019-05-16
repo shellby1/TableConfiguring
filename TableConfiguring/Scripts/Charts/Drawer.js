@@ -328,11 +328,11 @@ class _validation {
     }
     static getBoolean(value) {
         if (!isNaN(value))
-            switch (value.toUpperCase()) {
-                case 'true':
+            switch (value.toString().toUpperCase()) {
+                case 'TRUE':
                     return true;
                     break;
-                case 'false':
+                case 'FALSE':
                     return false;
                     break;
                 default:

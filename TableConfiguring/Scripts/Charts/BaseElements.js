@@ -10,7 +10,7 @@ class _elemBase {
      * @param {number} w Element width
      * @param {number} h Element height
      */
-    constructor(Drawer, cX, cY, cA, w, h, Color) {
+    constructor(Drawer, cX, cY, cA, w, h, Color, fill) {
         if (Drawer.constructor.name == 'Drawer')
             this._drawer = Drawer;
         else
@@ -21,6 +21,7 @@ class _elemBase {
         this._w = _validation.getInt(w);
         this._h = _validation.getInt(h);
         this._color = _validation.isNullOrEmpty(Color);
+        this._fill = _validation.getBoolean(fill);
     }
     // Get element center horizontal position
     get centerX() {
@@ -61,17 +62,15 @@ class Point extends _elemBase {
      * @param {Drawer} Drawer Main elemnt drawer object reference
      * @param {integer} X Pointh horizontal coordinate
      * @param {integer} Y Point vertical coordinate
-     * @param {integer} S Point size (default 5)
      * @param {degrement} A Point horizontal axis angle (default 0)
+     * @param {integer} S Point size (default 5)
      * @param {string} Color Point color
-     * 
      * @param {'arc','rec','rmb'} Form Point form type
+     * @param {boolean} Fill Fill point if true
      */
-    constructor(Drawer, X, Y, S, A, Color, Form, fill = true ) {
+    constructor(Drawer, X, Y, A, S, Color, Form, Fill = true ) {
         // Coordinates
-        super(Drawer, X, Y, A, S, S, Color);
-        // Fill point
-        this._fill = fill;
+        super(Drawer, X, Y, A, S, S / 3, Color, Fill);
         // Type of point
         this._form = 'arc';
         this.Form = Form;
@@ -86,10 +85,11 @@ class Point extends _elemBase {
             case 'arc':
             case 'rec':
             case 'rmb':
+            case 'arr':
                 this._form = form;
                 break;
             default:
-                throw 'Argument will be "arc", "rec" or "rmb"';
+                throw 'Argument will be "arc", "rec", "rmb" or arr';
         }
     }
     // Draw point
@@ -103,10 +103,30 @@ class Point extends _elemBase {
                 drw.Sector(0, 0, 0, this._w, 0, 360, this._color, this._fill);
                 break;
             case 'rec':
-                drw.rectangle(-lbc_x, -lbc_y, this._w, this._h, this._color, 2, this._fill);
+                drw.rectangle(-lbc_x, -lbc_y, this._w, this._w, this._color, 2, this._fill);
                 break;
             case 'rmb':
                 drw.rhombus(-lbc_x, -lbc_y, this._w, this._h, this._color, this._w, this._fill);
+                break;
+            case 'arr':
+                if (this._fill) {
+                    drw._ctx.fillStyle = this._color;
+                    drw._ctx.beginPath();
+                    drw._ctx.moveTo(0, 0);
+                    drw._ctx.lineTo(-this._w, this._h);
+                    drw._ctx.lineTo(-this._w, -this._h);
+                    drw._ctx.closePath();
+                    drw._ctx.fill();
+                }
+                else {
+                    drw._ctx.strokeStyle = this._color;
+                    drw._ctx.beginPath();
+                    drw._ctx.moveTo(0, 0);
+                    drw._ctx.lineTo(-this._w, this._h);
+                    drw._ctx.moveTo(0, 0);
+                    drw._ctx.lineTo(-this._w, -this._h);
+                    drw._ctx.stroke();
+                }
                 break;
         }
         drw.translateSelf(-this._cX, -this._cY, -this._cA);
@@ -126,13 +146,12 @@ class Sector extends _elemBase {
      * @param {integer} th Element thickness if fill is false
      * @param {boolean} fill
      */
-    constructor(Drawer, cX, cY, cA, wA, r1, r2, Color, th = 1, fill = true, Outline = true, OutlineColor = 'black') {
-        super(Drawer, cX, cY, cA, 0, 0, Color);
+    constructor(Drawer, cX, cY, cA, wA, r1, r2, Color, th = 1, Fill = true, Outline = true, OutlineColor = 'black') {
+        super(Drawer, cX, cY, cA, 0, 0, Color, Fill);
         this._wA = _validation.getDecimal(wA);
         this._r1 = _validation.getInt(r1);
         this._r2 = _validation.getInt(r2);
         this._th = _validation.getInt(th);
-        this._fill = fill;
         this._outline = Outline;
         this._outlineColor = OutlineColor;
     }
@@ -209,10 +228,9 @@ class Text extends _elemBase {
      * @param {string} Color Text color
      * @param {boolean} fill Fill text if true
      */
-    constructor(Drawer, x1, y1, cA, text, size, width = 2, font = 'serif', Color = 'black', fill = true) {
-        super(Drawer, x1, y1, cA, width, size, Color);
+    constructor(Drawer, x1, y1, cA, text, size, width = 2, font = 'serif', Color = 'black', Fill = true) {
+        super(Drawer, x1, y1, cA, width, size, Color, Fill);
         this._font = font;
-        this._fill = fill;
         this._text = text;
     }
     Draw() {
