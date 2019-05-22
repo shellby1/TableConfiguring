@@ -2,13 +2,13 @@
     <script type="module">
         import * as charts from '/Scripts/Charts/Charts.js';
         import * as base from '/Scripts/Charts/BaseElements.js';
-        /*window.chart_1904 = {
+        window.chart_1904 = {
         Request: new XMLHttpRequest(),
         Chart: null
         };
         window.chart_1904.Request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-        window.chart_1904.Chart = new charts.RadialDiagramm(document.getElementById('container'),'19.04',1000,new charts.DataTable(JSON.parse(this.responseText)),['yellow','red','white','green']);
+        window.chart_1904.Chart = new charts.RadialDiagramm(document.getElementById('container'),'19.04',1000,new charts.DataTable(JSON.parse(this.responseText)),['yellow','purple','red','white','green']);
         window.chart_1904.Chart.Draw();
         window.point = new base.Point(window.chart_1904.Chart._drawer, 500, 500, 20, 0, 'red', 'rec', true);
         };
@@ -21,17 +21,29 @@
         };
         chart_1904_2.Request.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
-        window.chart_1904_2.Chart = new charts.CircularDiagram(document.getElementById('container'), '19.04', 1000, new charts.DataTable(JSON.parse(this.responseText)),['yellow','red','white','green']);
+        window.chart_1904_2.Chart = new charts.CircularDiagram(document.getElementById('container'), '19.04', 1000, new charts.DataTable(JSON.parse(this.responseText)),['yellow','purple','red','white','green']);
         chart_1904_2.Chart.Draw();
         };
         };
         chart_1904_2.Request.open('POST','http://localhost/JobRuns/JobRuns/JobRunsSt?Partchstate=Approved&version=19.04');
-        chart_1904_2.Request.send();*/
-        window.chart = new charts.RadialDiagramm(document.getElementsByClassName('container')[0], '19.04', 1000, new charts.DataTable(JSON.parse('[{"inst":{"inst":181242,"name":"Test1"},"HOLD":200,"EXEC":200,"SUCC":800},{"inst":{"inst":213542,"name":"Test2"},"HOLD":250,"EXEC":250,"SUCC":850},{"inst":{"inst":10480,"name":"Test3"},"HOLD":200,"EXEC":250,"SUCC":850}]')), ['yellow', 'white', 'green']);
+        chart_1904_2.Request.send();
+        window.chart_1904_3 = {
+            Request: new XMLHttpRequest(),
+            Chart: null
+        };
+        chart_1904_3.Request.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+                window.chart_1904_3.Chart = new charts.RingChart(document.getElementById('container'), '19.04', 600, new charts.DataTable(JSON.parse(this.responseText)),['yellow','purple','red','white','green']);
+                window.chart_1904_3.Chart.Draw();
+            };
+        };
+        chart_1904_3.Request.open('POST', 'http://localhost/JobRuns/JobRuns/JobRunsSt?Partchstate=Approved&version=19.04');
+        chart_1904_3.Request.send();
+        /*window.chart = new charts.RadialDiagramm(document.getElementsByClassName('container')[0], '19.04', 1000, new charts.DataTable(JSON.parse('[{"inst":{"inst":181242,"name":"Test1"},"HOLD":200,"EXEC":200,"SUCC":800},{"inst":{"inst":213542,"name":"Test2"},"HOLD":250,"EXEC":250,"SUCC":850},{"inst":{"inst":10480,"name":"Test3"},"HOLD":200,"EXEC":250,"SUCC":850}]')), ['yellow', 'white', 'green']);
         window.chart.Draw();
         window.chart2 = new charts.CircularDiagram(document.getElementsByClassName('container')[0], '19.04', 1000, new charts.DataTable(JSON.parse('[{"inst":{"inst":181242,"name":"Test"},"HOLD":200,"EXEC":200,"SUCC":800},{"inst":{"inst":213542,"name":"Test2"},"HOLD":250,"EXEC":250,"SUCC":850},{"inst":{"inst":10480,"name":"Test3"},"HOLD":200,"EXEC":250,"SUCC":850}]')), ['yellow', 'white', 'green']);
         window.chart2.Draw();
         window.text = new base.Text(window.chart._drawer, 500, 500, 20, 'Test text', 30, 4, 'Arial', 'black', true);
-        window.text.Draw();
+        window.text.Draw();*/
     </script>
 </div>

@@ -228,8 +228,8 @@ class Text extends _elemBase {
      * @param {string} Color Text color
      * @param {boolean} fill Fill text if true
      */
-    constructor(Drawer, x1, y1, cA, text, size, width = 2, font = 'serif', Color = 'black', Fill = true) {
-        super(Drawer, x1, y1, cA, width, size, Color, Fill);
+    constructor(Drawer, x1, y1, cA, text, size, font = 'serif', Color = 'black', Fill = true) {
+        super(Drawer, x1, y1, cA, Drawer._ctx.measureText(text).width, size, Color, Fill);
         this._font = font;
         this._text = text;
     }

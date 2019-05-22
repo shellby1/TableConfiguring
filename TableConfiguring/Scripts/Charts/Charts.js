@@ -1,6 +1,6 @@
 import * as drawers from '/Scripts/Charts/Drawer.js';
 import * as elements from '/Scripts/Charts/BaseElements.js'
-export { DataTable, RadialDiagramm, CircularDiagram };
+export { DataTable, RadialDiagramm, CircularDiagram, RingChart };
 class DataTable {
     /**
      * Create new data table object
@@ -190,6 +190,71 @@ class CircularDiagram extends _baseDiagramm {
             }
             // Sectors list per column
             this._sectors[s].lable.Draw();
+        }
+        this._name.Draw();
+    }
+}
+class RingChart extends _baseDiagramm{
+    constructor(Container, Name, Height, Data, ColorMap, BackgroundColor){
+        super(Container, Height * 1.1, Height, Data, ColorMap, BackgroundColor );
+        this._center_x = this._drawer.height / 2;
+        // Translate origin to center
+        this._drawer.translateSelf(this._center_x, this._center_y, 0);
+        this._name = new elements.Text(this._drawer, -Name.length * 10, -20, 0, Name, 40);
+        // Sector items with lables
+        this._sectors = [];
+        // Object data parameters (column names)
+        var prms = this._data.colNames;
+        // Sector start, end, mid, width angle
+        var sf = 0;
+        var ef = 0;
+        var mf = 0;
+        var wf = 0;
+        // Ring radiuses
+        var rInr = this._drawer.height / 4 - 20;
+        var rOut = this._drawer.height / 2 - 20;
+        // For each row in data draw sector
+        for (var d = 0; d < this._data.length; d++) {
+            var row = this._data.table[d];
+            var secL = 360 * this._data.rowSum[d] / this._data.colsSum;
+            var sum = this._data.rowSum[d];
+            // Find sector start, end, mid angle
+            sf = ef;
+            ef += secL;
+            wf = ef - sf;
+            mf = (ef + sf) / 2;
+            // Init delta per column
+            var dlt_c = sum;
+            // Text posion
+            var t_x = Math.cos(drawers._validation.getRadial(mf)) * (rInr + rOut) / 2;
+            var t_y = Math.sin(drawers._validation.getRadial(mf)) *(rInr + rOut) / 2;
+            // Sector per row
+            var sector = {sectors: [], lable: [new elements.Text(this._drawer, t_x, t_y, 0, d + 1, 20), new elements.Text(this._drawer, (this._drawer.width - this._drawer.height), (this._center_x + this._drawer.height / 2 - 20) - 24, 0, d + 1 + ')' + this._data.table[d][this._data._colLable].name, 20)]};
+            // Iterate all parameters (data columns) per row
+            for (var i = 0; i < prms.length; i++) {
+                // Get value per row d and column i
+                var dlt = drawers._validation.getDecimal(row[prms[i]]);
+                // Draw sector if data is not 0
+                if (dlt != 0) {
+                    // Sector per column in row 
+                    sector.sectors.push(new elements.Sector(this._drawer, 0, 0, sf, wf, rInr, rOut, this._colorMap[i]));
+                    dlt_c -= dlt;
+                }
+            }
+            // Add sector to sector items
+            this._sectors.push(sector);
+        }
+    }
+    Draw() {
+        // Draw sectors per row
+        for (var s = 0; s < this._sectors.length; s++) {
+            // Draw sectors per column
+            for (var t = 0; t < this._sectors[s].sectors.length; t++) {
+                this._sectors[s].sectors[t].Draw();
+            }
+            // Sectors list per column
+            this._sectors[s].lable[0].Draw();
+            this._sectors[s].lable[1].Draw();
         }
         this._name.Draw();
     }

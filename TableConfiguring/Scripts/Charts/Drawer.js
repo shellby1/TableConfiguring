@@ -86,7 +86,7 @@ class Drawer {
     }
     // Get canvas width
     get height() {
-        return this._ctx.canvas.width;
+        return this._ctx.canvas.height;
     }
     // Set canvas width
     set height(h) {
@@ -194,7 +194,7 @@ class Drawer {
         var str_color = _validation.isNullOrEmpty(color);
         // Draw sector
         this._ctx.beginPath();
-        this._ctx.moveTo(int_x, int_y);
+        this._ctx.moveTo(int_x_sA, int_y_sA);
         this._ctx.arc(int_x, int_y, int_r1, rad_sA, rad_eA, true);
         this._ctx.lineTo(int_x_eA, int_y_eA);
         this._ctx.arc(int_x, int_y, int_r2, rad_eA, rad_sA);
